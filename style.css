@@ -1,0 +1,496 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    position: relative;
+}
+
+/* BACKGROUND */
+#background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    z-index: -2;
+    animation: gradientShift 15s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    }
+    50% {
+        background: linear-gradient(135deg, #16213e 0%, #0f3460 50%, #1a1a2e 100%);
+    }
+}
+
+#background::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(216, 91, 99, 0.1) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    animation: glowPulse 4s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+/* SCENE CONTAINER */
+.scene-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#scene-envelope {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+/* CARD WRAPPER */
+.card-wrapper {
+    position: relative;
+    width: 440px;
+    height: 315px;
+    perspective: 1000px;
+}
+
+@media (max-width: 768px) {
+    .card-wrapper {
+        width: 350px;
+        height: 250px;
+    }
+}
+
+/* LÁ THƯ */
+.letter {
+    position: absolute;
+    bottom: 10px;
+    left: 32px;
+    width: 375px;
+    height: 250px;
+    background: linear-gradient(135deg, #fffaf0 0%, #fff5e6 100%);
+    padding: 38px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (max-width: 768px) {
+    .letter {
+        width: 300px;
+        height: 200px;
+        left: 25px;
+        bottom: 8px;
+        padding: 30px;
+    }
+}
+
+.letter-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 100%;
+}
+
+.typing-text {
+    font-size: 18px;
+    color: #333;
+    line-height: 1.6;
+    min-height: 100px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+@media (max-width: 768px) {
+    .typing-text {
+        font-size: 14px;
+        min-height: 80px;
+    }
+}
+
+/* BAO THƯ */
+.envelope-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 440px;
+    height: 315px;
+    z-index: 2;
+    transition: all 1s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .envelope-wrapper {
+        width: 350px;
+        height: 250px;
+    }
+}
+
+.envelope-front {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #e8a5a5 0%, #d48e8e 100%);
+    z-index: 5;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    clip-path: polygon(
+        0 0,
+        50% 55%,
+        100% 0,
+        100% 100%,
+        0 100%
+    );
+    transition: all 0.6s ease-in-out;
+}
+
+/* Nắp bao thư */
+.top-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 220px solid transparent;
+    border-right: 220px solid transparent;
+    border-top: 188px solid #d48e8e;
+    transform-origin: top;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 6;
+    box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.2);
+    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+}
+
+@media (max-width: 768px) {
+    .top-flap {
+        border-left: 175px solid transparent;
+        border-right: 175px solid transparent;
+        border-top: 150px solid #d48e8e;
+    }
+}
+
+/* ANIMATION ENVELOPE SHAKE (khi mở) */
+@keyframes envelopeShake {
+    0%, 100% { transform: translateX(0) rotate(0.5deg); }
+    25% { transform: translateX(-4px) rotate(-0.5deg); }
+    50% { transform: translateX(4px) rotate(0.5deg); }
+    75% { transform: translateX(-4px) rotate(-0.5deg); }
+}
+
+.envelope-wrapper.shaking {
+    animation: envelopeShake 0.3s ease-in-out infinite;
+}
+
+.envelope-wrapper.shaking.duration-1s {
+    animation: envelopeShake 0.3s ease-in-out 3 forwards;
+    animation-delay: 0s;
+}
+
+/* TRẠNG THÁI MỞ */
+.open .top-flap {
+    transform: rotateX(180deg);
+}
+
+.open .envelope-wrapper {
+    transform: translateY(350px);
+    opacity: 0.6;
+}
+
+.open .letter {
+    opacity: 1;
+    transform: translateY(-20px);
+    z-index: 10;
+}
+
+.open #background {
+    animation: gradientBright 1s ease-in-out forwards;
+}
+
+@keyframes gradientBright {
+    to {
+        background: linear-gradient(135deg, #2d5a6e 0%, #1e4d6b 50%, #16395c 100%);
+    }
+}
+
+.open #background::before {
+    animation: glowPulseOpen 4s ease-in-out infinite;
+}
+
+@keyframes glowPulseOpen {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+}
+
+/* NÚT BẤM */
+.btn-primary {
+    margin-top: 75px;
+    padding: 14px 40px;
+    font-size: 16px;
+    border: none;
+    border-radius: 50px;
+    background: white;
+    color: #d85b63;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(216, 91, 99, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(216, 91, 99, 0.3);
+}
+
+.btn-primary:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary:active {
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    .btn-primary {
+        margin-top: 50px;
+        padding: 12px 30px;
+        font-size: 14px;
+    }
+}
+
+/* CAMERA SHAKE - toàn màn hình */
+@keyframes cameraShake {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-2px, -2px); }
+    20% { transform: translate(2px, 2px); }
+    30% { transform: translate(-2px, 2px); }
+    40% { transform: translate(2px, -2px); }
+    50% { transform: translate(-1px, 1px); }
+    60% { transform: translate(1px, -1px); }
+    70% { transform: translate(-1px, -1px); }
+    80% { transform: translate(1px, 1px); }
+    90% { transform: translate(0, -1px); }
+}
+
+.scene-container.shake {
+    animation: cameraShake 0.2s ease-in-out;
+}
+
+/* PARTICLES */
+#particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 8;
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Floating particles - nền */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(-30px) translateX(20px);
+        opacity: 1;
+    }
+}
+
+.particle.floating {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Confetti burst */
+@keyframes explodeAnim {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--x), var(--y)) rotate(720deg) scale(0);
+        opacity: 0;
+    }
+}
+
+.particle.explode {
+    animation: explodeAnim 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Falling confetti */
+@keyframes fallingAnim {
+    0% {
+        transform: translateY(0) rotateZ(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotateZ(720deg);
+        opacity: 0;
+    }
+}
+
+.particle.falling {
+    animation: fallingAnim 5s linear forwards;
+}
+
+/* EASTER EGG MESSAGE */
+.easter-egg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    color: #d85b63;
+    padding: 20px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+    animation: easterEggPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes easterEggPop {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.easter-egg.fade-out {
+    animation: easterEggFadeOut 0.6s ease-out forwards 2s;
+}
+
+@keyframes easterEggFadeOut {
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+}
+
+/* RESPONSIVE - MOBILE */
+@media (max-width: 480px) {
+    .card-wrapper {
+        width: 260px;
+        height: 185px;
+    }
+
+    .letter {
+        width: 210px;
+        height: 145px;
+        left: 18px;
+        bottom: 6px;
+        padding: 18px;
+    }
+
+    .letter-content {
+        gap: 10px;
+    }
+
+    .typing-text {
+        font-size: 11px;
+        min-height: 55px;
+        line-height: 1.5;
+    }
+
+    .envelope-wrapper {
+        width: 260px;
+        height: 185px;
+    }
+
+    .top-flap {
+        border-left: 130px solid transparent;
+        border-right: 130px solid transparent;
+        border-top: 110px solid #d48e8e;
+    }
+
+    .btn-primary {
+        margin-top: 30px;
+        padding: 12px 28px;
+        font-size: 13px;
+    }
+
+    .easter-egg {
+        font-size: 12px;
+        padding: 16px 24px;
+    }
+}
+
+/* Smooth scrolling & transitions */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    transition: background-color 0.3s ease;
+}
