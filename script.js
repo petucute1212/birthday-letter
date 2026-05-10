@@ -4,12 +4,18 @@
 
 // DOM Elements
 const openBtn = document.getElementById('openBtn');
+const certificateBtn = document.getElementById('certificateBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const backBtn = document.getElementById('backBtn');
 const sceneContainer = document.querySelector('.scene-container');
+const sceneEnvelope = document.getElementById('scene-envelope');
+const sceneCertificate = document.getElementById('scene-certificate');
 const letterElement = document.getElementById('letter');
 const envelopeWrapper = document.getElementById('envelope');
 const particlesContainer = document.getElementById('particles-container');
 const typingText = document.getElementById('typingText');
 const easterEgg = document.getElementById('easterEgg');
+const certificateImage = document.getElementById('certificateImage');
 
 // Audio
 const bgMusic = new Audio('assets/music.mp3');
@@ -20,6 +26,7 @@ bgMusic.volume = 0;
 let isOpen = false;
 let mouseClickCount = 0;
 let isAnimating = false;
+let currentScene = 'envelope'; // 'envelope' or 'certificate'
 
 // Confetti colors
 const CONFETTI_COLORS = [
@@ -33,7 +40,7 @@ const CONFETTI_COLORS = [
 ];
 
 // Birthday message for typing effect
-const BIRTHDAY_MESSAGE = `Chúc chị Mai sinh nhật vui vẻ ^^\n "Bạn đã chính thức nhận được \n chứng nhận người dàààààà \n dễ thương nhất của năm"`;
+const BIRTHDAY_MESSAGE = `Chúc chị Mai sinh nhật vui vẻ ^^\n "Vào ngày 14 tháng 5 năm ấy đã xuất hiện một cô gái xinh đẹp, thông minh và tuyệt vời nhất thế giới \n - It's youuuuuuuuuuuuuuuuu"`;
 
 // ============================================================================
 // MAIN EVENT LISTENER
@@ -41,14 +48,15 @@ const BIRTHDAY_MESSAGE = `Chúc chị Mai sinh nhật vui vẻ ^^\n "Bạn đã 
 
 openBtn.addEventListener('click', handleEnvelopeClick);
 envelopeWrapper.addEventListener('click', handleEnvelopeClickDirect);
+certificateBtn.addEventListener('click', showCertificate);
+downloadBtn.addEventListener('click', downloadCertificate);
+backBtn.addEventListener('click', backToEnvelope);
 
 function handleEnvelopeClick() {
     if (isAnimating) return;
     
     if (!isOpen) {
         openEnvelope();
-    } else {
-        closeEnvelope();
     }
 }
 
@@ -95,8 +103,11 @@ function openEnvelope() {
         fadeInMusic();
         
         // Update button
-        openBtn.innerText = "Đóng thư";
+        openBtn.innerText = "Mở thư";
         openBtn.disabled = false;
+        certificateBtn.style.display = 'block';
+        // Hide open button
+        openBtn.style.display = 'none';
     }, 1200);
     
     // Start falling confetti
@@ -369,3 +380,59 @@ window.addEventListener('resize', () => {
     // Reposition particles container if needed
     // Most animations are reactive by design
 });
+
+// ============================================================================
+// CERTIFICATE FUNCTIONS
+// ============================================================================
+
+function showCertificate() {
+    if (isAnimating) return;
+    isAnimating = true;
+    currentScene = 'certificate';
+    
+    // Fade out envelope scene
+    sceneEnvelope.style.opacity = '0';
+    sceneEnvelope.style.pointerEvents = 'none';
+    
+    setTimeout(() => {
+        sceneEnvelope.style.display = 'none';
+        sceneCertificate.style.display = 'flex';
+        
+        setTimeout(() => {
+            sceneCertificate.classList.add('show');
+            isAnimating = false;
+        }, 50);
+    }, 400);
+}
+
+function backToEnvelope() {
+    if (isAnimating) return;
+    isAnimating = true;
+    currentScene = 'envelope';
+    
+    // Fade out certificate scene
+    sceneCertificate.classList.remove('show');
+    
+    setTimeout(() => {
+        sceneCertificate.style.display = 'none';
+        sceneEnvelope.style.display = 'flex';
+        
+        setTimeout(() => {
+            sceneEnvelope.style.opacity = '1';
+            sceneEnvelope.style.pointerEvents = 'auto';
+            isAnimating = false;
+        }, 50);
+    }, 400);
+}
+
+function downloadCertificate() {
+    // Create a link element
+    const link = document.createElement('a');
+    link.href = 'assets/Certificate.png';
+    link.download = 'Certificate_ChiMai.png';
+    
+    // Trigger download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}

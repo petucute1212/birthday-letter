@@ -494,3 +494,98 @@ html {
 body {
     transition: background-color 0.3s ease;
 }
+
+/* CERTIFICATE SCENE */
+#scene-certificate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    z-index: 20;
+}
+
+#scene-certificate.show {
+    opacity: 1;
+}
+
+.certificate-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    animation: slideInCertificate 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes slideInCertificate {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.certificate-image {
+    max-width: 90%;
+    max-height: 70vh;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    animation: certificateGlow 3s ease-in-out infinite;
+}
+
+@keyframes certificateGlow {
+    0%, 100% {
+        box-shadow: 0 20px 60px rgba(216, 91, 99, 0.2);
+    }
+    50% {
+        box-shadow: 0 20px 80px rgba(216, 91, 99, 0.4);
+    }
+}
+
+@media (max-width: 768px) {
+    .certificate-image {
+        max-width: 95%;
+        max-height: 60vh;
+    }
+    
+    .certificate-container {
+        gap: 20px;
+    }
+}
+
+.btn-certificate,
+.btn-download,
+.btn-back {
+    min-width: 200px;
+}
+
+.btn-download {
+    background: linear-gradient(135deg, #ff477e 0%, #ff7096 100%);
+    color: white;
+}
+
+.btn-download:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(255, 71, 126, 0.4);
+}
+
+.btn-back {
+    background: rgba(255, 255, 255, 0.8);
+    color: #d85b63;
+    min-width: 150px;
+}
+
+.btn-back:hover {
+    background: white;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(216, 91, 99, 0.3);
+}
