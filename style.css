@@ -589,3 +589,557 @@ body {
     transform: translateY(-3px);
     box-shadow: 0 12px 35px rgba(216, 91, 99, 0.3);
 }
+
+/* BUTTON GROUP - Certificate */
+.button-group {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-gift {
+    background: linear-gradient(135deg, #00f5d4 0%, #00bbf9 100%);
+    color: white;
+}
+
+.btn-gift:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 245, 212, 0.3);
+}
+
+/* ============================================================================
+   GIFT BOX FEATURE
+   ============================================================================ */
+
+#scene-gift {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    z-index: 30;
+}
+
+#scene-gift.show {
+    opacity: 1;
+}
+
+.gift-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    z-index: 31;
+    animation: backdropFadeIn 0.6s ease forwards;
+}
+
+@keyframes backdropFadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(8px);
+    }
+}
+
+.gift-modal {
+    position: relative;
+    z-index: 32;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    animation: giftModalSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes giftModalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.3) translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* GIFT BOX - Main */
+.gift-box {
+    width: 140px;
+    height: 140px;
+    position: relative;
+    cursor: pointer;
+    transform: rotateZ(-8deg);
+    animation: giftBoxIdle 3s ease-in-out infinite;
+}
+
+@keyframes giftBoxIdle {
+    0%, 100% {
+        transform: rotateZ(-8deg) translateY(0) rotateX(0);
+    }
+    25% {
+        transform: rotateZ(-8deg) translateY(-6px) rotateX(2deg);
+    }
+    50% {
+        transform: rotateZ(-8deg) translateY(-10px) rotateX(-2deg);
+    }
+    75% {
+        transform: rotateZ(-8deg) translateY(-4px) rotateX(1deg);
+    }
+}
+
+/* Gift Box Body */
+.gift-box-body {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #FFB3D9 0%, #FFD4E5 50%, #FFC4D6 100%);
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.gift-box-body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), transparent 50%);
+    border-radius: 12px;
+}
+
+/* Gift Box Top */
+.gift-box-top {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 60px;
+    z-index: 2;
+}
+
+.gift-box-top::before {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 40px;
+    left: 10px;
+    top: 10px;
+    background: linear-gradient(135deg, #FFC0D9 0%, #FFE5F0 100%);
+    border-radius: 6px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Ribbon Horizontal */
+.gift-ribbon-h {
+    position: absolute;
+    background: linear-gradient(180deg, #FF69B4 0%, #FF1493 50%, #FF69B4 100%);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.gift-ribbon-h-1 {
+    width: 140px;
+    height: 12px;
+    top: 50%;
+    margin-top: -6px;
+    z-index: 3;
+    box-shadow: 0 4px 10px rgba(255, 20, 147, 0.3);
+    animation: ribbonWave1 2s ease-in-out infinite;
+}
+
+.gift-ribbon-h-2 {
+    width: 100px;
+    height: 8px;
+    top: 50%;
+    margin-top: -4px;
+    z-index: 2;
+    opacity: 0.7;
+    animation: ribbonWave2 2s ease-in-out infinite 0.3s;
+}
+
+@keyframes ribbonWave1 {
+    0%, 100% { transform: translateX(-50%) scaleY(1); }
+    50% { transform: translateX(-50%) scaleY(0.95); }
+}
+
+@keyframes ribbonWave2 {
+    0%, 100% { transform: translateX(-50%) scaleY(1); }
+    50% { transform: translateX(-50%) scaleY(0.9); }
+}
+
+/* Ribbon Vertical */
+.gift-ribbon-v {
+    position: absolute;
+    background: linear-gradient(90deg, #FF69B4 0%, #FF1493 50%, #FF69B4 100%);
+    top: 50%;
+    width: 12px;
+    height: 140px;
+    margin-top: -70px;
+    z-index: 2;
+    box-shadow: 4px 0 10px rgba(255, 20, 147, 0.3);
+}
+
+.gift-ribbon-v-1 {
+    left: 50%;
+    margin-left: -6px;
+    animation: ribbonPulse1 2.5s ease-in-out infinite;
+}
+
+.gift-ribbon-v-2 {
+    left: 50%;
+    margin-left: -6px;
+    opacity: 0.6;
+    animation: ribbonPulse2 2.5s ease-in-out infinite 0.2s;
+}
+
+@keyframes ribbonPulse1 {
+    0%, 100% { opacity: 1; transform: scaleX(1); }
+    50% { opacity: 0.8; transform: scaleX(0.95); }
+}
+
+@keyframes ribbonPulse2 {
+    0%, 100% { opacity: 0.6; transform: scaleX(1); }
+    50% { opacity: 0.5; transform: scaleX(0.9); }
+}
+
+/* Shine Effect */
+.gift-shine {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    animation: shine 3s ease-in-out infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes shine {
+    0%, 100% {
+        opacity: 0.3;
+        transform: translateX(-50%) translateY(-50%);
+    }
+    50% {
+        opacity: 0.6;
+        transform: translateX(0) translateY(0);
+    }
+}
+
+/* Gift Interactions */
+.gift-box.shake-light {
+    animation: shakeLight 0.3s ease-in-out !important;
+}
+
+@keyframes shakeLight {
+    0%, 100% { transform: rotateZ(-8deg) translateY(0); }
+    25% { transform: rotateZ(-8deg) translateX(-4px) translateY(-3px); }
+    50% { transform: rotateZ(-8deg) translateX(4px) translateY(3px); }
+    75% { transform: rotateZ(-8deg) translateX(-2px) translateY(-2px); }
+}
+
+.gift-box.shake-medium {
+    animation: shakeMedium 0.4s ease-in-out !important;
+}
+
+@keyframes shakeMedium {
+    0%, 100% { transform: rotateZ(-8deg) translateY(0); }
+    20% { transform: rotateZ(-5deg) translateX(-6px) translateY(-5px); }
+    40% { transform: rotateZ(-11deg) translateX(6px) translateY(5px); }
+    60% { transform: rotateZ(-8deg) translateX(-4px) translateY(-3px); }
+    80% { transform: rotateZ(-8deg) translateX(3px) translateY(2px); }
+}
+
+.gift-box.shake-heavy {
+    animation: shakeHeavy 0.5s ease-in-out !important;
+}
+
+@keyframes shakeHeavy {
+    0%, 100% { transform: rotateZ(-8deg) rotateX(0) translateY(0); }
+    15% { transform: rotateZ(-5deg) rotateX(-8deg) translateX(-8px) translateY(-8px); }
+    30% { transform: rotateZ(-12deg) rotateX(8deg) translateX(8px) translateY(6px); }
+    45% { transform: rotateZ(-8deg) rotateX(-6deg) translateX(-6px) translateY(-4px); }
+    60% { transform: rotateZ(-9deg) rotateX(4deg) translateX(5px) translateY(3px); }
+    75% { transform: rotateZ(-7deg) rotateX(-3deg) translateX(-3px) translateY(-2px); }
+}
+
+/* Gift Hint Text */
+.gift-hint {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 400;
+    text-align: center;
+    animation: hintPulse 2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+    0%, 100% {
+        opacity: 0.6;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-6px);
+    }
+}
+
+.gift-hint.update {
+    animation: hintChange 0.4s ease forwards;
+}
+
+@keyframes hintChange {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================================================
+   VOUCHER SECTION
+   ============================================================================ */
+
+.voucher-container {
+    position: absolute;
+    z-index: 33;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.voucher-container.show {
+    opacity: 1 !important;
+    display: flex !important;
+}
+
+.voucher {
+    background: linear-gradient(135deg, #FFEEF8 0%, #FFE5F0 50%, #FFD9E8 100%);
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    animation: voucherSlideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes voucherSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.voucher::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), transparent 50%);
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+.voucher-decoration {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #FF69B4, transparent);
+    margin: 15px 0;
+    position: relative;
+    z-index: 2;
+}
+
+.voucher-decoration::before,
+.voucher-decoration::after {
+    content: '✦';
+    position: absolute;
+    color: #FF69B4;
+    font-size: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.voucher-decoration::before {
+    left: -20px;
+}
+
+.voucher-decoration::after {
+    right: -20px;
+}
+
+.voucher-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.voucher-line {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.voucher-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #FF69B4;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    min-width: 80px;
+    opacity: 0;
+    animation: labelFadeIn 0.6s ease forwards;
+}
+
+.voucher-label:nth-child(1) { animation-delay: 0.2s; }
+.voucher-label:nth-child(2) { animation-delay: 0.4s; }
+.voucher-label:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes labelFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.voucher-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    opacity: 0;
+    animation: textFadeIn 0.6s ease forwards;
+    word-spacing: 0.1em;
+    letter-spacing: 0.02em;
+}
+
+.voucher-text:nth-of-type(2) { animation-delay: 0.3s; }
+.voucher-text:nth-of-type(3) { animation-delay: 0.5s; }
+.voucher-text:nth-of-type(4) { animation-delay: 0.7s; }
+.voucher-text:nth-of-type(5) { animation-delay: 0.9s; }
+.voucher-text:nth-of-type(6) { animation-delay: 1.1s; }
+
+@keyframes textFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.voucher-reward {
+    font-size: 20px;
+    background: linear-gradient(135deg, #FF69B4, #FF1493);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.voucher-message {
+    font-size: 14px;
+    font-weight: 400;
+    color: #666;
+    font-style: italic;
+}
+
+.voucher-final-text {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    margin-top: 20px;
+    opacity: 0;
+    animation: finalTextFade 0.8s ease forwards 1.5s;
+}
+
+@keyframes finalTextFade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Confetti in gift */
+.gift-confetti {
+    position: fixed;
+    pointer-events: none;
+    z-index: 31;
+}
+
+@keyframes confettiFall {
+    to {
+        transform: translateY(100vh) rotateZ(720deg);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .gift-box {
+        width: 110px;
+        height: 110px;
+    }
+
+    .gift-hint {
+        font-size: 14px;
+    }
+
+    .voucher {
+        padding: 30px 20px;
+    }
+
+    .voucher-text {
+        font-size: 16px;
+    }
+
+    .voucher-label {
+        font-size: 11px;
+    }
+}
+
+@keyframes flashScreen {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

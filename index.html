@@ -35,8 +35,55 @@
         <div class="scene" id="scene-certificate" style="display: none;">
             <div class="certificate-container">
                 <img id="certificateImage" src="assets/Certificate.png" alt="Certificate" class="certificate-image">
-                <button id="downloadBtn" class="btn-primary btn-download">📥 Tải chứng chỉ</button>
-                <button id="backBtn" class="btn-primary btn-back">← Quay lại</button>
+                <div class="button-group">
+                    <button id="downloadBtn" class="btn-primary btn-download">📥 Tải chứng chỉ</button>
+                    <button id="giftBtn" class="btn-primary btn-gift">Nhận thêm quà ✨</button>
+                    <button id="backBtn" class="btn-primary btn-back">← Quay lại</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCENE 3: Gift Box -->
+        <div class="scene" id="scene-gift" style="display: none;">
+            <div class="gift-modal-backdrop" id="giftBackdrop"></div>
+            <div class="gift-modal">
+                <div class="gift-box" id="giftBox">
+                    <div class="gift-box-top">
+                        <div class="gift-ribbon-h gift-ribbon-h-1"></div>
+                        <div class="gift-ribbon-h gift-ribbon-h-2"></div>
+                    </div>
+                    <div class="gift-ribbon-v gift-ribbon-v-1"></div>
+                    <div class="gift-ribbon-v gift-ribbon-v-2"></div>
+                    <div class="gift-box-body"></div>
+                    <div class="gift-shine"></div>
+                </div>
+                <div class="gift-hint" id="giftHint">Tap tap thử xem? 👀</div>
+            </div>
+
+            <!-- Voucher -->
+            <div class="voucher-container" id="voucherContainer" style="display: none; opacity: 0;">
+                <button id="giftBackBtn" class="btn-primary btn-back">← Quay lại</button>
+                <div class="voucher">
+                    <div class="voucher-decoration voucher-top"></div>
+                    <div class="voucher-content">
+                        <div class="voucher-line">
+                            <span class="voucher-label">Tặng cho:</span>
+                            <span class="voucher-text" id="voucherRecipient"></span>
+                        </div>
+                        <div class="voucher-divider"></div>
+                        <div class="voucher-line">
+                            <span class="voucher-label">Phần thưởng:</span>
+                            <span class="voucher-text voucher-reward" id="voucherReward"></span>
+                        </div>
+                        <div class="voucher-divider"></div>
+                        <div class="voucher-line">
+                            <span class="voucher-label">Nhắn nhủ:</span>
+                            <span class="voucher-text voucher-message" id="voucherMessage"></span>
+                        </div>
+                    </div>
+                    <div class="voucher-decoration voucher-bottom"></div>
+                </div>
+                <div class="voucher-final-text" id="voucherFinalText"></div>
             </div>
         </div>
 
